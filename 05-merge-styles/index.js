@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const stylesDir = './styles';
-const distDir = './project-dist';
+const stylesDir = './05-merge-styles/styles';
+const distDir = './05-merge-styles/project-dist';
 const outputFile = 'bundle.css';
 
 if (!fs.existsSync(distDir)) {
