@@ -6,24 +6,23 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-let filename = 'input.txt';
+const filename = 'output.txt';
+let stream = fs.createWriteStream(filename, { flags: 'a'});
 
-console.log(`Введите текст для записи в файл ${filename}.`);
-console.log(`Для завершения введите 'exit' или нажмите Ctrl+C.`);
+console.log('Введите текст. Для выхода введите exit или нажмите Ctrl+C\n');
 
 rl.on('line', (input) => {
   if (input.toLowerCase() === 'exit') {
-    console.log('Завершение программы.');
+    console.log('\nПрограмма завершена');
     rl.close();
-  } else {
-    fs.appendFile(filename, input + '\n', (err) => {
-      if (err) throw err;
-      console.log(`Текст добавлен в файл ${filename}.`);
-      console.log(`Введите текст для записи в файл ${filename}.`);
-    });
-  }
+    stream.end();
+    return;
+  } 
+    stream.write(input + '\n');
 });
 
-rl.on('close', () => {
-  console.log('Завершение программы.');
+rl.on('SIGINT', () => {
+  console.log('\nПрограмма завершена');
+  stream.end();
+  process.exit();
 });
